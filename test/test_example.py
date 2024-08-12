@@ -12,10 +12,14 @@ except Exception as error:
     error
     pass
 
+
 @pytest.fixture
 def github_app() -> Github:
-    token = os.environ.get("GIT_APP_TOKEN")
-    return Github(token)
+    token = os.environ.get('GIT_APP_TOKEN')
+    if token:
+        return Github(token)
+    else:
+        raise ValueError("GIT_APP_TOKEN not found in environment variables")
 
 
 @pytest.fixture
