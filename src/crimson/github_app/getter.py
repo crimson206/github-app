@@ -1,27 +1,27 @@
 from github import Github
 from github.Repository import Repository
 from github.ContentFile import ContentFile
+from github.GithubObject import NotSet
 
 from typing import List, Dict, Optional
 
 
-def get_git_repos(app: Github, user_id: Optional[str] = None) -> Dict[str, Repository]:
+def get_git_repos(app: Github, user_id: Optional[str] = NotSet) -> Dict[str, Repository]:
     """
     If your app is logged in, use it without user_id to keep the authority.
     """
-    if user_id is not None:
-        user = app.get_user(user_id)
-    else:
-        user = app.get_user()
+    user = app.get_user(user_id)
 
     repos = {}
 
     for repo in user.get_repos():
         repos[repo.name] = repo
+
     return repos
 
 
 def get_repo_contents(repo: Repository, dir: str) -> List[ContentFile]:
+
     contents: List[ContentFile] = repo.get_contents(dir)
     file_contents: List[ContentFile] = []
 
