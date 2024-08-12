@@ -1,1 +1,3 @@
 crimson-file-loader
+beautifulsoup4
+crimson-ast-dev-tool
