@@ -1,13 +1,21 @@
 import pytest
+from github import Github
 from github.Repository import Repository
 from github.ContentFile import ContentFile
-from secret import get_github_app
 from crimson.github_app.getter import get_git_repos, get_repo_contents, get_repo_content
+import os
 
+try:
+    from secret import set_env
+    set_env()
+except Exception as error:
+    error
+    pass
 
 @pytest.fixture
-def github_app():
-    return get_github_app()
+def github_app() -> Github:
+    token = os.environ.get("GIT_APP_TOKEN")
+    return Github(token)
 
 
 @pytest.fixture
