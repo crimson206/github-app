@@ -33,6 +33,8 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run tests with coverage
+      env:
+        GIT_APP_TOKEN: ${{ secrets.GIT_APP_TOKEN }}
       run: |
         pytest --cov=src/crimson/{module_name} --cov-report=html
 
