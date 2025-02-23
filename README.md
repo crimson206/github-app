@@ -1,98 +1,60 @@
-**Template README.md**\
-This file is from the [template repository](https://github.com/crimson206/template/blob/main/README.md).
-Rewrite it for your own package.
+# Crimson GitHub App
 
-## Python Package Setup
+A Python package to easily download contents from GitHub repositories.
 
-### Setup Base
+## Installation
 
-To install required pip modules for `generate_toml.py`, run
-``` bash
-source scripts/setup_base.sh
+```bash
+pip install crimson-github-app
 ```
 
-### User Setup
+## Main Function
 
-- go to `generate_toml.py` file, and complete the setup in the `User Setup` session.
+The package exposes one main function for downloading repository contents:
 
 ```python
-options = Options(
-    # Will you use the discussion session in your repo?
-    discussion=False
-)
+from crimson.github_app import download_repo_contents
 
-# Define the general information of your package
-kwargs = Kwargs(
-    name_space="None",
-    module_name="None",
-    description="None",
+# Download repository contents
+download_repo_contents(
+    repo_name="username/repository",
+    dir_in_repo="path/to/directory",
+    output_dir="output",
+    git_token=None
 )
 ```
 
-If you wrote all the information, run
-```
-python generate_toml.py
-```
+### Parameters
 
-#### Template
+- `repo_name` (str): Full repository name in the format "username/repository"
+- `dir_in_repo` (str): Directory path within the repository to download from
+- `output_dir` (str, optional): Local directory to save files to. Defaults to "output"
+- `git_token` (str, optional): GitHub token for private repositories. Required for private repos
 
-If you want to understand the generation process, check the `template` variable in `generate_toml.py`.
+### Example
 
-### Setup Env
+```python
+# Download public repository contents
+download_repo_contents(
+    "crimson206/my-project",
+    "src/examples",
+    output_dir="downloaded_files"
+)
 
-#### Prerequisite
-
-Finish [User Setup](#user-setup) first.
-Of course, conda command must be available.
-
-#### Setup Env
-
-Run
-``` bash
-source scripts/setup_env.sh
-```
-
-steps
-- create an conda environment named as your $MODULE_NAME
-- activate the environment.
-- install requirements.txt
-
-#### Generate Private Env
-Generate a private repository in this repo.
-I recommend you to write all the unstructured codes in this repo.
-
-``` bash
-source scripts/generate_dev_repo.sh
+# Download private repository contents
+download_repo_contents(
+    "crimson206/private-repo",
+    "docs",
+    output_dir="local_docs",
+    git_token="your_github_token"
+)
 ```
 
-It will ask you the name of your repo, and then, generate a repo named f'{your_repo_name}-dev'.
+## Requirements
 
-**Usage Tip**
+- Python ≥ 3.9
+- PyGithub
 
-If you wrote your codes in a wrong branch,
-- backup the files to the dev repo
-- remove changes in your main(not main branch) repo
-- move to your correct branch
-- place back the backup codes
+## License
 
-
-## Workflows
-
-I currently setup test and release workflows.
-
-**Test**
-
-If you make a PR with the patterns [ main, develop, 'release/*', 'feature/*' ],
-
-It will perform your unittest in ["3.9", "3.10", "3.11"]
-
-**Release**
-
-required secret : PYPI_API_TOKEN
-
-I usually make PRs only when I start release branches.
-release workflow is not conducted automatically. If you think your branch is ready to be published, 
-
-- go to https://github.com/{github_id}/{repo_name}/actions/workflows/release.yaml
-- find the button, 'Run workflow'
-- select the branch to publish. In my case, release/x.x.x
+MIT License
