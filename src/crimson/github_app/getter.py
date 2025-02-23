@@ -1,3 +1,23 @@
+"""
+Import
+---
+``` python
+import (
+    get_git_repos,
+    get_repo_contents,
+    get_repo_content,
+    get_git_repo
+)
+```
+---
+
+Description
+---
+A Python package to interact with GitHub API and get repository contents.
+
+"""
+
+
 from github import Github
 from github.Repository import Repository
 from github.ContentFile import ContentFile
@@ -19,6 +39,22 @@ def get_git_repos(app: Github, user_id: Optional[str] = NotSet) -> Dict[str, Rep
 
     return repos
 
+def get_git_repo(repo_name:str, git_token:str=None)->Repository:
+    """
+    Args:
+        repo_name: full name of the repository, e.g., "username/repo_name"
+        git_token: github token. It is required if the repository is private
+        
+    Returns:
+		Repository: github repository object
+    """
+
+    g = Github(
+        login_or_token=git_token,
+	)
+
+    git_repo = g.get_repo(repo_name)
+    return git_repo
 
 def get_repo_contents(repo: Repository, dir: str) -> List[ContentFile]:
 
